@@ -1,0 +1,11 @@
+:root {
+    --primary: #000000;
+}
+
+body {
+    padding: 10px;
+}
+
+h1 {
+    text-align: center;
+}
