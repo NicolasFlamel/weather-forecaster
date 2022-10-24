@@ -2,10 +2,25 @@
     --primary: #000000;
 }
 
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
 body {
     padding: 10px;
 }
 
 h1 {
     text-align: center;
+}
+
+#present-weather {
+    padding: 5px;
+    border-style: solid;
+}
+
+#five-day-weather ol li{
+    max-width: 190px;
 }

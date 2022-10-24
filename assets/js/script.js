@@ -26,7 +26,7 @@ function getWeatherAt(lat, lon) {
     var key = '15dca0d0b372553e6b4758c35f61904a';
 
     getWeatherAPI(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`);
-    
+
     //different url for forecast api
     getForecastAPI(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`);
 }
@@ -73,28 +73,70 @@ function getForecastAPI(url) {
         });
 }
 
-function sameDayWeather(cityCurrentWeather) {
-    console.log(cityCurrentWeather);
-    //load data in html
+//load same-day weather information into html
+function sameDayWeather(weatherData) {
+    console.log(weatherData);
+    var weatherEl = document.querySelector('#present-weather');
+    var weatherUlEl = document.querySelector('#present-weather ul');
+    var weatherIconEl = document.querySelector('#present-weather img');
+    var date = dayjs().format('M/D/YYYY');
+    //converts to imperial units
+    var tempConverted = (weatherData.main.temp - 273.15) * 9 / 5 + 32;
+    var speedConverted = weatherData.wind.speed * 2.237
+
+    //populates city name, date and weather img
+    weatherEl.getElementsByTagName('h2')[0].textContent = `${weatherData.name} (${date})`;
+    weatherIconEl.src = `http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
+    weatherIconEl.title = weatherData.weather[0].description;
+
+    //populates weather information
+    weatherUlEl.children[0].textContent += tempConverted.toFixed(2) + ' °F';
+    weatherUlEl.children[1].textContent += speedConverted.toFixed(2) + ' MPH';
+    weatherUlEl.children[2].textContent += weatherData.main.humidity + '%';
 
     //save history
-    saveInHistoryWeather(cityCurrentWeather)
+    saveInHistoryWeather(weatherData)
     localStorage.setItem('history', JSON.stringify(cityHistory));
 }
 
-function fiveDayWeather(cityWeatherForecast) {
-    console.log(cityWeatherForecast);
+//loads 5-day forecast information into html
+function fiveDayWeather(forecastData) {
+    console.log(forecastData);
     //load data in html
+    var forecastLiEl = document.querySelectorAll('#five-day-weather ol > li');
+    var date = dayjs().format('M/D/YYYY');
+
+    //loops through the 5 day forecast elements and fills
+    for (var i = 0; i < forecastLiEl.length; i++) {
+        var currentForecastUlEl = forecastLiEl[i].querySelector('ul');
+        var currentForecast = forecastData.list[i * 8 + 3]; // sets forecast to 9 am
+        var iconSource = `http://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`;
+        var tempConverted = (currentForecast.main.temp - 273.15) * 9 / 5 + 32;
+        var speedConverted = currentForecast.wind.speed * 2.237
+        
+        //advances day by 1
+        date = dayjs(date).add(1, 'day').format('M/D/YYYY');
+
+        //populates date and weather img
+        forecastLiEl[i].querySelector('h3').textContent = date;
+        forecastLiEl[i].querySelector('img').src = iconSource;
+        forecastLiEl[i].querySelector('img').title = currentForecast.weather[0].description;
+
+        //populates weather information
+        currentForecastUlEl.children[0].textContent += tempConverted.toFixed(2) + ' °F';
+        currentForecastUlEl.children[1].textContent += speedConverted.toFixed(2) + ' MPH';
+        currentForecastUlEl.children[2].textContent += currentForecast.main.humidity + '%';
+    }
 
     //save history
-    saveInHistoryForecast(cityWeatherForecast);
+    saveInHistoryForecast(forecastData);
     localStorage.setItem('history', JSON.stringify(cityHistory));
 }
 
-//loops through history array and checks if a city weather object exists
 function saveInHistoryWeather(data) {
     var cityName = data.name;
-
+    
+    //loops through history array and checks if a city exists
     for (var i = 0; i < cityHistory.length; i++) {
         if (cityHistory[i].name == cityName) {
             cityHistory[i].current = data;
@@ -102,6 +144,7 @@ function saveInHistoryWeather(data) {
         }
     }
 
+    //if it doesn't then makes object with data and push to array
     var tempObject = {
         name: cityName,
         current: data
@@ -112,7 +155,8 @@ function saveInHistoryWeather(data) {
 
 function saveInHistoryForecast(data) {
     var cityName = data.city.name;
-
+    
+    //loops through history array and checks if a city exists
     for (var i = 0; i < cityHistory.length; i++) {
         if (cityHistory[i].name == cityName) {
             cityHistory[i].forecast = data;
@@ -120,6 +164,7 @@ function saveInHistoryForecast(data) {
         }
     }
 
+    //if it doesn't then makes object with data and push to array
     var tempObject = {
         name: cityName,
         forecast: data
@@ -129,4 +174,3 @@ function saveInHistoryForecast(data) {
 }
 
 getCoord('hialeah');
-getCoord('new york');
