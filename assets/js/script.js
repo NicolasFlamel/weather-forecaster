@@ -15,6 +15,19 @@ var cityHistory = JSON.parse(localStorage.getItem('history')) || []
 //     }
 // ]
 
+function onLoad() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(passed, getCoord('sacramento'));
+    } else {
+        console.log("Browser doesn't support geolocation");
+        getCoord('sacramento');
+    }
+}
+
+function passed(position) {
+    getWeatherAt(position.coords.latitude, position.coords.longitude)
+}
+
 function getCoord(city) {
     var key = '15dca0d0b372553e6b4758c35f61904a';
     var url = new URL(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`);
@@ -82,7 +95,7 @@ function sameDayWeather(weatherData) {
     var date = dayjs().format('M/D/YYYY');
     //converts to imperial units
     var tempConverted = (weatherData.main.temp - 273.15) * 9 / 5 + 32;
-    var speedConverted = weatherData.wind.speed * 2.237
+    var speedConverted = weatherData.wind.speed * 2.237;
 
     //populates city name, date and weather img
     weatherEl.getElementsByTagName('h2')[0].textContent = `${weatherData.name} (${date})`;
@@ -95,7 +108,8 @@ function sameDayWeather(weatherData) {
     weatherUlEl.children[2].textContent += weatherData.main.humidity + '%';
 
     //save history
-    saveInHistoryWeather(weatherData)
+    updateCityHistoryWeather(weatherData);
+    updateHistory(weatherData);
     localStorage.setItem('history', JSON.stringify(cityHistory));
 }
 
@@ -113,7 +127,7 @@ function fiveDayWeather(forecastData) {
         var iconSource = `http://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`;
         var tempConverted = (currentForecast.main.temp - 273.15) * 9 / 5 + 32;
         var speedConverted = currentForecast.wind.speed * 2.237
-        
+
         //advances day by 1
         date = dayjs(date).add(1, 'day').format('M/D/YYYY');
 
@@ -129,13 +143,13 @@ function fiveDayWeather(forecastData) {
     }
 
     //save history
-    saveInHistoryForecast(forecastData);
+    updateCityHistoryForecast(forecastData);
     localStorage.setItem('history', JSON.stringify(cityHistory));
 }
 
-function saveInHistoryWeather(data) {
+function updateCityHistoryWeather(data) {
     var cityName = data.name;
-    
+
     //loops through history array and checks if a city exists
     for (var i = 0; i < cityHistory.length; i++) {
         if (cityHistory[i].name == cityName) {
@@ -153,9 +167,9 @@ function saveInHistoryWeather(data) {
     cityHistory.push(tempObject);
 }
 
-function saveInHistoryForecast(data) {
+function updateCityHistoryForecast(data) {
     var cityName = data.city.name;
-    
+
     //loops through history array and checks if a city exists
     for (var i = 0; i < cityHistory.length; i++) {
         if (cityHistory[i].name == cityName) {
@@ -173,4 +187,8 @@ function saveInHistoryForecast(data) {
     cityHistory.push(tempObject);
 }
 
-getCoord('hialeah');
+function updateHistory(weatherData) {
+
+}
+
+onLoad();
