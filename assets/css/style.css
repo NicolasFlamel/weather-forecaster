@@ -24,3 +24,11 @@ h1 {
 #five-day-weather ol li{
     max-width: 190px;
 }
+
+#history ol li {
+    border-style: solid;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    user-select: none;
+}

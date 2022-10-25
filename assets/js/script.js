@@ -17,7 +17,7 @@ var cityHistory = JSON.parse(localStorage.getItem('history')) || []
 
 function onLoad() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(passed, getCoord('sacramento'));
+        navigator.geolocation.getCurrentPosition(passed, failed);
     } else {
         console.log("Browser doesn't support geolocation");
         getCoord('sacramento');
@@ -26,6 +26,11 @@ function onLoad() {
 
 function passed(position) {
     getWeatherAt(position.coords.latitude, position.coords.longitude)
+}
+
+//default location on first load
+function failed() {
+    getCoord('sacramento');
 }
 
 function getCoord(city) {
@@ -68,6 +73,7 @@ function getWeatherAPI(url) {
             }
         })
         .then(function (data) {
+            console.log(data);
             sameDayWeather(data);
         });
 }
@@ -82,16 +88,16 @@ function getForecastAPI(url) {
             }
         })
         .then(function (data) {
+            console.log(data);
             fiveDayWeather(data);
         });
 }
 
 //load same-day weather information into html
 function sameDayWeather(weatherData) {
-    console.log(weatherData);
     var weatherEl = document.querySelector('#present-weather');
-    var weatherUlEl = document.querySelector('#present-weather ul');
-    var weatherIconEl = document.querySelector('#present-weather img');
+    var weatherIconEl = document.querySelector('#present-weather > img');
+    var valueEl = document.querySelectorAll('#present-weather .value');
     var date = dayjs().format('M/D/YYYY');
     //converts to imperial units
     var tempConverted = (weatherData.main.temp - 273.15) * 9 / 5 + 32;
@@ -103,9 +109,9 @@ function sameDayWeather(weatherData) {
     weatherIconEl.title = weatherData.weather[0].description;
 
     //populates weather information
-    weatherUlEl.children[0].textContent += tempConverted.toFixed(2) + ' °F';
-    weatherUlEl.children[1].textContent += speedConverted.toFixed(2) + ' MPH';
-    weatherUlEl.children[2].textContent += weatherData.main.humidity + '%';
+    valueEl[0].textContent = tempConverted.toFixed(2) + ' °F';
+    valueEl[1].textContent = speedConverted.toFixed(2) + ' MPH';
+    valueEl[2].textContent = weatherData.main.humidity + '%';
 
     //save history
     updateCityHistoryWeather(weatherData);
@@ -115,14 +121,13 @@ function sameDayWeather(weatherData) {
 
 //loads 5-day forecast information into html
 function fiveDayWeather(forecastData) {
-    console.log(forecastData);
     //load data in html
     var forecastLiEl = document.querySelectorAll('#five-day-weather ol > li');
     var date = dayjs().format('M/D/YYYY');
 
     //loops through the 5 day forecast elements and fills
     for (var i = 0; i < forecastLiEl.length; i++) {
-        var currentForecastUlEl = forecastLiEl[i].querySelector('ul');
+        var currentForecastUlEl = forecastLiEl[i].querySelectorAll('.value');
         var currentForecast = forecastData.list[i * 8 + 3]; // sets forecast to 9 am
         var iconSource = `http://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`;
         var tempConverted = (currentForecast.main.temp - 273.15) * 9 / 5 + 32;
@@ -137,9 +142,9 @@ function fiveDayWeather(forecastData) {
         forecastLiEl[i].querySelector('img').title = currentForecast.weather[0].description;
 
         //populates weather information
-        currentForecastUlEl.children[0].textContent += tempConverted.toFixed(2) + ' °F';
-        currentForecastUlEl.children[1].textContent += speedConverted.toFixed(2) + ' MPH';
-        currentForecastUlEl.children[2].textContent += currentForecast.main.humidity + '%';
+        currentForecastUlEl[0].textContent = tempConverted.toFixed(2) + ' °F';
+        currentForecastUlEl[1].textContent = speedConverted.toFixed(2) + ' MPH';
+        currentForecastUlEl[2].textContent = currentForecast.main.humidity + '%';
     }
 
     //save history
@@ -188,7 +193,36 @@ function updateCityHistoryForecast(data) {
 }
 
 function updateHistory(weatherData) {
+    var history = [];
+    var historyOlEl = document.querySelector('#history ol');
+    historyOlEl.textContent = '';
+    
+    for (var i = 0; i < cityHistory.length; i++) {
+        var listItem = document.createElement('li');
+        listItem.textContent = cityHistory[i].name;
+        historyOlEl.appendChild(listItem);
 
+        history.push(cityHistory[i].name);
+    }
 }
+
+function something(event) {
+    var cityName = event.target.textContent;
+    var index = -1;
+
+    for(var i = 0; i < cityHistory.length; i++) {
+        if(cityHistory[i].name == cityName){
+            index = i;
+            i = cityHistory.length;
+            
+            sameDayWeather(cityHistory[index].current);
+            fiveDayWeather(cityHistory[index].forecast);
+        }
+    }
+    
+}
+
+
+document.querySelector('#history ol').addEventListener('click', something);
 
 onLoad();
