@@ -2,7 +2,8 @@
     --primary: #000000;
 }
 
-ul, ol {
+ul,
+ol {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -21,7 +22,7 @@ h1 {
     border-style: solid;
 }
 
-#five-day-weather ol li{
+#five-day-weather ol li {
     max-width: 190px;
 }
 
@@ -31,4 +32,9 @@ h1 {
     padding: 5px;
     text-align: center;
     user-select: none;
+    cursor: pointer;
+}
+
+#history ol li:hover {
+    background-color: gray;
 }

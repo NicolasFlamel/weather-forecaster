@@ -16,20 +16,6 @@ var cityHistory = JSON.parse(localStorage.getItem('history')) || []
 // ]
 
 function onLoad() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(passed, failed);
-    } else {
-        console.log("Browser doesn't support geolocation");
-        getCoord('sacramento');
-    }
-}
-
-function passed(position) {
-    getWeatherAt(position.coords.latitude, position.coords.longitude)
-}
-
-//default location on first load
-function failed() {
     getCoord('sacramento');
 }
 
@@ -55,10 +41,16 @@ function getCoordApi(url) {
             if (response.ok) {
                 return response.json();
             } else {
-                alert('failed');
+                createAlert();
+                return Promise.reject(response);
             }
         })
         .then(function (data) {
+            if (data.length == 0) {
+                console.log(data);
+                createAlert();
+                return;
+            }
             getWeatherAt(data[0].lat, data[0].lon);
         });
 }
@@ -73,7 +65,6 @@ function getWeatherAPI(url) {
             }
         })
         .then(function (data) {
-            console.log(data);
             sameDayWeather(data);
         });
 }
@@ -88,9 +79,19 @@ function getForecastAPI(url) {
             }
         })
         .then(function (data) {
-            console.log(data);
             fiveDayWeather(data);
         });
+}
+
+function createAlert() {
+    var divEl = document.createElement('div');
+    var asideEl = document.querySelector('aside');
+    var alertHtml = '<strong>Error!</strong> Could not find that city name. <button type = "button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'
+
+    divEl.setAttribute('class', 'alert alert-warning alert-dismissible fade show');
+    divEl.setAttribute('role', 'alert')
+    divEl.innerHTML = alertHtml;
+    asideEl.insertBefore(divEl, document.querySelector('#search'))
 }
 
 //load same-day weather information into html
@@ -115,7 +116,7 @@ function sameDayWeather(weatherData) {
 
     //save history
     updateCityHistoryWeather(weatherData);
-    updateHistory(weatherData);
+    updateHistory();
     localStorage.setItem('history', JSON.stringify(cityHistory));
 }
 
@@ -192,11 +193,11 @@ function updateCityHistoryForecast(data) {
     cityHistory.push(tempObject);
 }
 
-function updateHistory(weatherData) {
+function updateHistory() {
     var history = [];
     var historyOlEl = document.querySelector('#history ol');
     historyOlEl.textContent = '';
-    
+
     for (var i = 0; i < cityHistory.length; i++) {
         var listItem = document.createElement('li');
         listItem.textContent = cityHistory[i].name;
@@ -205,24 +206,31 @@ function updateHistory(weatherData) {
         history.push(cityHistory[i].name);
     }
 }
+function citySearch(event) {
+    searchTerm = document.querySelector('#city-input').value;
 
-function something(event) {
+    if (searchTerm.length > 0) {
+        getCoord(searchTerm);
+    }
+}
+
+function historySelect(event) {
     var cityName = event.target.textContent;
     var index = -1;
 
-    for(var i = 0; i < cityHistory.length; i++) {
-        if(cityHistory[i].name == cityName){
+    for (var i = 0; i < cityHistory.length; i++) {
+        if (cityHistory[i].name == cityName) {
             index = i;
             i = cityHistory.length;
-            
+
             sameDayWeather(cityHistory[index].current);
             fiveDayWeather(cityHistory[index].forecast);
         }
     }
-    
 }
 
 
-document.querySelector('#history ol').addEventListener('click', something);
+document.querySelector('#city-input').addEventListener('search', citySearch)
+document.querySelector('#history ol').addEventListener('click', historySelect);
 
 onLoad();
