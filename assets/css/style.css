@@ -38,6 +38,10 @@ h1 {
     text-align: center;
 }
 
+.row {
+    justify-content: center;
+}
+
 #present-weather {
     display: flex;
     flex-wrap: wrap;
