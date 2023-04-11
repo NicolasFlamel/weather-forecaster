@@ -25,7 +25,9 @@ async function citySearch(event) {
   if (searchTerm.length < 1) return;
 
   const coord = await getCoord(searchTerm);
-  getWeatherAt(coord);
+  const weatherData = await getWeatherAt(coord);
+  sameDayWeather(weatherData.current);
+  fiveDayWeather(weatherData.forecast);
 }
 
 function historySelect(event) {
@@ -44,8 +46,8 @@ function historySelect(event) {
 }
 
 async function getCoord(city) {
-  var key = '15dca0d0b372553e6b4758c35f61904a';
-  var url = new URL(
+  const key = '15dca0d0b372553e6b4758c35f61904a';
+  const url = new URL(
     `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`
   );
 
@@ -62,61 +64,35 @@ async function getCoord(city) {
   return { lat: data[0].lat, lon: data[0].lon };
 }
 
-function getWeatherAt({ lat, lon }) {
-  var key = '15dca0d0b372553e6b4758c35f61904a';
+async function getWeatherAt({ lat, lon }) {
+  const key = '15dca0d0b372553e6b4758c35f61904a';
 
-  getWeatherAPI(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
-  );
+  const data = await Promise.all([
+    getWeatherAPI(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
+    ),
+    getForecastAPI(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
+    ),
+  ]);
 
-  //different url for forecast api
-  getForecastAPI(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
-  );
+  return { current: data[0], forecast: data[1] };
 }
 
-function getWeatherAPI(url) {
-  fetch(url)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        alert('failed');
-      }
-    })
-    .then(function (data) {
-      sameDayWeather(data);
-    });
+async function getWeatherAPI(url) {
+  const response = await fetch(url);
+
+  if (!response.ok) return alert('failed');
+
+  return response.json();
 }
 
-function getForecastAPI(url) {
-  fetch(url)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        alert('failed');
-      }
-    })
-    .then(function (data) {
-      fiveDayWeather(data);
-    });
-}
+async function getForecastAPI(url) {
+  const response = await fetch(url);
 
-// alert of failed search
-function createAlert() {
-  var divEl = document.createElement('div');
-  var asideEl = document.querySelector('aside');
-  var alertHtml =
-    '<strong>Error!</strong> Could not find that city name. <button type = "button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+  if (!response.ok) return alert('failed');
 
-  divEl.setAttribute(
-    'class',
-    'alert alert-warning alert-dismissible fade show'
-  );
-  divEl.setAttribute('role', 'alert');
-  divEl.innerHTML = alertHtml;
-  asideEl.insertBefore(divEl, document.querySelector('#search'));
+  return response.json();
 }
 
 //load same-day weather information into html
@@ -233,6 +209,22 @@ function updateHistory() {
 
     history.push(cityHistory[i].name);
   }
+}
+
+// alert of failed search
+function createAlert() {
+  var divEl = document.createElement('div');
+  var asideEl = document.querySelector('aside');
+  var alertHtml =
+    '<strong>Error!</strong> Could not find that city name. <button type = "button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+
+  divEl.setAttribute(
+    'class',
+    'alert alert-warning alert-dismissible fade show'
+  );
+  divEl.setAttribute('role', 'alert');
+  divEl.innerHTML = alertHtml;
+  asideEl.insertBefore(divEl, document.querySelector('#search'));
 }
 
 document.querySelector('#city-input').addEventListener('search', citySearch);
