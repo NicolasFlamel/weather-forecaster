@@ -16,19 +16,53 @@ var cityHistory = JSON.parse(localStorage.getItem('history')) || [];
 // ]
 
 function onLoad() {
-  getCoord('sacramento');
+  citySearch({ target: { value: 'sacramento' } });
 }
 
-function getCoord(city) {
+async function citySearch(event) {
+  const searchTerm = event.target.value;
+
+  if (searchTerm.length < 1) return;
+
+  const coord = await getCoord(searchTerm);
+  getWeatherAt(coord);
+}
+
+function historySelect(event) {
+  var cityName = event.target.textContent;
+  var index = -1;
+
+  for (var i = 0; i < cityHistory.length; i++) {
+    if (cityHistory[i].name == cityName) {
+      index = i;
+      i = cityHistory.length;
+
+      sameDayWeather(cityHistory[index].current);
+      fiveDayWeather(cityHistory[index].forecast);
+    }
+  }
+}
+
+async function getCoord(city) {
   var key = '15dca0d0b372553e6b4758c35f61904a';
   var url = new URL(
     `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=${key}`
   );
 
-  getCoordApi(url);
+  const response = await fetch(url);
+  if (!response.ok) {
+    createAlert();
+    return Promise.reject(response);
+  }
+
+  const data = await response.json();
+
+  if (data.length == 0) return createAlert();
+
+  return { lat: data[0].lat, lon: data[0].lon };
 }
 
-function getWeatherAt(lat, lon) {
+function getWeatherAt({ lat, lon }) {
   var key = '15dca0d0b372553e6b4758c35f61904a';
 
   getWeatherAPI(
@@ -39,26 +73,6 @@ function getWeatherAt(lat, lon) {
   getForecastAPI(
     `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
   );
-}
-
-function getCoordApi(url) {
-  fetch(url)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      } else {
-        createAlert();
-        return Promise.reject(response);
-      }
-    })
-    .then(function (data) {
-      if (data.length == 0) {
-        console.log(data);
-        createAlert();
-        return;
-      }
-      getWeatherAt(data[0].lat, data[0].lon);
-    });
 }
 
 function getWeatherAPI(url) {
@@ -89,6 +103,7 @@ function getForecastAPI(url) {
     });
 }
 
+// alert of failed search
 function createAlert() {
   var divEl = document.createElement('div');
   var asideEl = document.querySelector('aside');
@@ -217,28 +232,6 @@ function updateHistory() {
     historyOlEl.appendChild(listItem);
 
     history.push(cityHistory[i].name);
-  }
-}
-function citySearch(event) {
-  searchTerm = document.querySelector('#city-input').value;
-
-  if (searchTerm.length > 0) {
-    getCoord(searchTerm);
-  }
-}
-
-function historySelect(event) {
-  var cityName = event.target.textContent;
-  var index = -1;
-
-  for (var i = 0; i < cityHistory.length; i++) {
-    if (cityHistory[i].name == cityName) {
-      index = i;
-      i = cityHistory.length;
-
-      sameDayWeather(cityHistory[index].current);
-      fiveDayWeather(cityHistory[index].forecast);
-    }
   }
 }
 
