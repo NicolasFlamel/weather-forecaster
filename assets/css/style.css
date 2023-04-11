@@ -30,7 +30,10 @@ ol {
 }
 
 body {
+  margin: 5px;
   padding: 10px;
+  background: linear-gradient(135deg, #014e5c, #01849b);
+  background-attachment: fixed;
 }
 
 .jumbotron {
@@ -51,6 +54,10 @@ h1 {
 
 .row {
   justify-content: center;
+}
+
+.content-box {
+  border: green solid;
 }
 
 #present-weather {
@@ -131,9 +138,10 @@ h1 {
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  box-shadow: 0 0 20px #eee;
   border-radius: 10px;
   display: block;
+  cursor: pointer;
+  user-select: none;
 }
 
 #history ol li:hover {
