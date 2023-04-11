@@ -1,6 +1,6 @@
 :root {
   --primary: #000000;
-  --gradiant-primary: linear-gradient(
+  --gradient-primary: linear-gradient(
     to right,
     #1fa2ff 0%,
     #12d8fa 51%,
@@ -37,7 +37,7 @@ body {
   height: 150px;
 
   background-color: #0093e9;
-  background-image: var(--gradiant-primary);
+  background-image: var(--gradient-primary);
   background-size: var(--bg-size);
 }
 
@@ -58,7 +58,7 @@ h1 {
   flex-wrap: wrap;
   padding: 5px;
   justify-content: center;
-  background-image: var(--gradiant-primary);
+  background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
 }
@@ -95,7 +95,7 @@ h1 {
   display: inline;
   padding: 5px;
   margin: 10px;
-  background-image: var(--gradiant-primary);
+  background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
 }
@@ -105,14 +105,14 @@ h1 {
   padding: 5px;
   margin: 10px;
   background-color: #0093e9;
-  background-image: var(--gradiant-primary);
+  background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
 }
 
 #search {
   padding: 10px;
-  background-image: var(--gradiant-primary);
+  background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
 }
