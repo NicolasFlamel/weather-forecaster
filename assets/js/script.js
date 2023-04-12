@@ -26,8 +26,8 @@ async function citySearch(event) {
 
   const coord = await getCoord(searchTerm);
   const weatherData = await getWeatherAt(coord);
-  sameDayWeather(weatherData.current);
-  fiveDayWeather(weatherData.forecast);
+  updateSameDayWeather(weatherData.current);
+  updatedForecast(weatherData.forecast);
 }
 
 function historySelect(event) {
@@ -39,8 +39,8 @@ function historySelect(event) {
       index = i;
       i = cityHistory.length;
 
-      sameDayWeather(cityHistory[index].current);
-      fiveDayWeather(cityHistory[index].forecast);
+      updateSameDayWeather(cityHistory[index].current);
+      updatedForecast(cityHistory[index].forecast);
     }
   }
 }
@@ -71,7 +71,7 @@ async function getWeatherAt({ lat, lon }) {
     getWeatherAPI(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`
     ),
-    getForecastAPI(
+    getWeatherAPI(
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`
     ),
   ]);
@@ -87,16 +87,8 @@ async function getWeatherAPI(url) {
   return response.json();
 }
 
-async function getForecastAPI(url) {
-  const response = await fetch(url);
-
-  if (!response.ok) return alert('failed');
-
-  return response.json();
-}
-
 //load same-day weather information into html
-function sameDayWeather(weatherData) {
+function updateSameDayWeather(weatherData) {
   var weatherEl = document.querySelector('#present-weather');
   var weatherIconEl = document.querySelector('#present-weather > img');
   var valueEl = document.querySelectorAll('#present-weather .value');
@@ -124,7 +116,7 @@ function sameDayWeather(weatherData) {
 }
 
 //loads 5-day forecast information into html
-function fiveDayWeather(forecastData) {
+function updatedForecast(forecastData) {
   //load data in html
   var forecastLiEl = document.querySelectorAll('#five-day-weather ol > li');
   var date = dayjs().format('M/D/YYYY');
