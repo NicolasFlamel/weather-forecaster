@@ -1,4 +1,4 @@
-var cityHistory = JSON.parse(localStorage.getItem('history')) || [];
+let cityHistory = JSON.parse(localStorage.getItem('history')) || [];
 
 // object looks like this:
 // cityHistory = [
@@ -31,10 +31,9 @@ async function citySearch(event) {
 }
 
 function historySelect(event) {
-  var cityName = event.target.textContent;
-  var index = -1;
+  const cityName = event.target.textContent;
 
-  for (var i = 0; i < cityHistory.length; i++) {
+  for (let i = 0; i < cityHistory.length; i++) {
     if (cityHistory[i].name == cityName) {
       updateSameDayWeather(cityHistory[i].current);
       updatedForecast(cityHistory[i].forecast);
@@ -87,13 +86,13 @@ async function getWeatherAPI(url) {
 
 //load same-day weather information into html
 function updateSameDayWeather(weatherData) {
-  var weatherEl = document.querySelector('#present-weather');
-  var weatherIconEl = document.querySelector('#present-weather > img');
-  var valueEl = document.querySelectorAll('#present-weather .value');
-  var date = dayjs().format('M/D/YYYY');
+  const weatherEl = document.querySelector('#present-weather');
+  const weatherIconEl = document.querySelector('#present-weather > img');
+  const valueEl = document.querySelectorAll('#present-weather .value');
+  const date = dayjs().format('M/D/YYYY');
   //converts to imperial units
-  var tempConverted = ((weatherData.main.temp - 273.15) * 9) / 5 + 32;
-  var speedConverted = weatherData.wind.speed * 2.237;
+  const tempConverted = ((weatherData.main.temp - 273.15) * 9) / 5 + 32;
+  const speedConverted = weatherData.wind.speed * 2.237;
 
   //populates city name, date and weather img
   weatherEl.getElementsByTagName(
@@ -116,16 +115,16 @@ function updateSameDayWeather(weatherData) {
 //loads 5-day forecast information into html
 function updatedForecast(forecastData) {
   //load data in html
-  var forecastLiEl = document.querySelectorAll('#five-day-weather ol > li');
-  var date = dayjs().format('M/D/YYYY');
+  const forecastLiEl = document.querySelectorAll('#five-day-weather ol > li');
+  let date = dayjs().format('M/D/YYYY');
 
   //loops through the 5 day forecast elements and fills
-  for (var i = 0; i < forecastLiEl.length; i++) {
-    var currentForecastUlEl = forecastLiEl[i].querySelectorAll('.value');
-    var currentForecast = forecastData.list[i * 8 + 3]; // sets forecast to 9 am
-    var iconSource = `http://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`;
-    var tempConverted = ((currentForecast.main.temp - 273.15) * 9) / 5 + 32;
-    var speedConverted = currentForecast.wind.speed * 2.237;
+  for (let i = 0; i < forecastLiEl.length; i++) {
+    const currentForecastUlEl = forecastLiEl[i].querySelectorAll('.value');
+    const currentForecast = forecastData.list[i * 8 + 3]; // sets forecast to 9 am
+    const iconSource = `http://openweathermap.org/img/wn/${currentForecast.weather[0].icon}@2x.png`;
+    const tempConverted = ((currentForecast.main.temp - 273.15) * 9) / 5 + 32;
+    const speedConverted = currentForecast.wind.speed * 2.237;
 
     //advances day by 1
     date = dayjs(date).add(1, 'day').format('M/D/YYYY');
@@ -148,10 +147,10 @@ function updatedForecast(forecastData) {
 }
 
 function updateCityHistoryWeather(data) {
-  var cityName = data.name;
+  const cityName = data.name;
 
   //loops through history array and checks if a city exists
-  for (var i = 0; i < cityHistory.length; i++) {
+  for (let i = 0; i < cityHistory.length; i++) {
     if (cityHistory[i].name == cityName) {
       cityHistory[i].current = data;
       return;
@@ -159,7 +158,7 @@ function updateCityHistoryWeather(data) {
   }
 
   //if it doesn't then makes object with data and push to array
-  var tempObject = {
+  const tempObject = {
     name: cityName,
     current: data,
   };
@@ -168,10 +167,10 @@ function updateCityHistoryWeather(data) {
 }
 
 function updateCityHistoryForecast(data) {
-  var cityName = data.city.name;
+  const cityName = data.city.name;
 
   //loops through history array and checks if a city exists
-  for (var i = 0; i < cityHistory.length; i++) {
+  for (let i = 0; i < cityHistory.length; i++) {
     if (cityHistory[i].name == cityName) {
       cityHistory[i].forecast = data;
       return;
@@ -179,7 +178,7 @@ function updateCityHistoryForecast(data) {
   }
 
   //if it doesn't then makes object with data and push to array
-  var tempObject = {
+  const tempObject = {
     name: cityName,
     forecast: data,
   };
@@ -188,12 +187,12 @@ function updateCityHistoryForecast(data) {
 }
 
 function updateHistory() {
-  var history = [];
-  var historyOlEl = document.querySelector('#history ol');
+  const history = [];
+  const historyOlEl = document.querySelector('#history ol');
   historyOlEl.textContent = '';
 
-  for (var i = 0; i < cityHistory.length; i++) {
-    var listItem = document.createElement('li');
+  for (let i = 0; i < cityHistory.length; i++) {
+    const listItem = document.createElement('li');
     listItem.textContent = cityHistory[i].name;
     historyOlEl.appendChild(listItem);
 
@@ -203,9 +202,9 @@ function updateHistory() {
 
 // alert of failed search
 function createAlert() {
-  var divEl = document.createElement('div');
-  var asideEl = document.querySelector('aside');
-  var alertHtml =
+  const divEl = document.createElement('div');
+  const asideEl = document.querySelector('aside');
+  const alertHtml =
     '<strong>Error!</strong> Could not find that city name. <button type = "button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
 
   divEl.setAttribute(
