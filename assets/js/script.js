@@ -36,11 +36,9 @@ function historySelect(event) {
 
   for (var i = 0; i < cityHistory.length; i++) {
     if (cityHistory[i].name == cityName) {
-      index = i;
-      i = cityHistory.length;
-
-      updateSameDayWeather(cityHistory[index].current);
-      updatedForecast(cityHistory[index].forecast);
+      updateSameDayWeather(cityHistory[i].current);
+      updatedForecast(cityHistory[i].forecast);
+      break;
     }
   }
 }
