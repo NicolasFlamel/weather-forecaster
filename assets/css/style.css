@@ -1,128 +1,159 @@
 :root {
-    --primary: #000000;
-    --gradiant-primary: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
-    --bg-size: 200% auto;
-    --text-color: white;
-    --font-family: 'Roboto', sans-serif;
+  --primary: #000000;
+  --gradient-primary: linear-gradient(
+    to right,
+    #1fa2ff 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+  --bg-size: 200% auto;
+  --text-color: white;
+  --font-family: 'Roboto', sans-serif;
 }
 
-h1,h2,h3,h4,h5,p,li{
-    font-family: var(--font-family);
-    color: var(--text-color);
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+li {
+  font-family: var(--font-family);
+  color: var(--text-color);
 }
 
 ul,
 ol {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-    padding: 10px;
+  margin: 5px;
+  padding: 10px;
+  background: linear-gradient(135deg, #014e5c, #01849b);
+  background-attachment: fixed;
 }
 
 .jumbotron {
-    height: 150px;
+  height: 150px;
 
-    background-color: #0093E9;
-    background-image: var(--gradiant-primary);
-    background-size: var(--bg-size);
+  background-color: #0093e9;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
 }
 
 .jumbotron h1 {
-    font-size: 50px;
+  font-size: 50px;
 }
 
 h1 {
-    text-align: center;
+  text-align: center;
 }
 
 .row {
-    justify-content: center;
+  justify-content: center;
+}
+
+.content-box {
+  border: green solid;
 }
 
 #present-weather {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 5px;
-    justify-content: center;
-    background-image: var(--gradiant-primary);
-    background-size: var(--bg-size);
-    border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  justify-content: center;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
 }
 
 #present-weather h2,
 #present-weather ul {
-    margin-top: auto;
-    margin-bottom: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 #present-weather ul {
-    display: flex;
-    flex-basis: 100%;
+  display: flex;
+  flex-basis: 100%;
 }
 
 #present-weather li {
-    text-align: center;
-    flex-basis: 100%;
+  text-align: center;
+  flex-basis: 100%;
 }
 
 #present-weather ul li:first-child {
-    text-align: end;
+  text-align: end;
 }
 
 #present-weather ul li:last-child {
-    text-align: start;
+  text-align: start;
 }
 
 #five-day-weather {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #five-day-weather h2 {
-    display: inline;
-    padding: 5px;
-    margin: 10px;
-    background-image: var(--gradiant-primary);
-    background-size: var(--bg-size);
-    border-radius: 10px;
+  display: inline;
+  padding: 5px;
+  margin: 10px;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
 }
 
-#five-day-weather ol>li {
-    max-width: 190px;
-    padding: 5px;
-    margin: 10px;
-    background-color: #0093E9;
-    background-image: var(--gradiant-primary);
-    background-size: var(--bg-size);
-    border-radius: 10px;
+#five-day-weather ol > li {
+  max-width: 190px;
+  padding: 5px;
+  margin: 10px;
+  background-color: #0093e9;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
 }
 
 #search {
-    padding: 10px;
-    background-image: var(--gradiant-primary);
-    background-size: var(--bg-size);
-    border-radius: 10px;
+  padding: 10px;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
+}
+
+#history {
+  margin: 5px;
+  /* TODO: add border (?) */
+  overflow: auto;
+  max-height: 400px;
 }
 
 #history ol li {
-    background-image: linear-gradient(to right, #1FA2FF 0%, #12D8FA 51%, #1FA2FF 100%);
-    margin: 10px;
-    padding: 15px 45px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    box-shadow: 0 0 20px #eee;
-    border-radius: 10px;
-    display: block;
+  background-image: linear-gradient(
+    to right,
+    #1fa2ff 0%,
+    #12d8fa 51%,
+    #1fa2ff 100%
+  );
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  cursor: pointer;
+  user-select: none;
 }
 
 #history ol li:hover {
-    background-position: right center;
-    /* change the direction of the change here */
-    color: #fff;
-    text-decoration: none;
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
 }
