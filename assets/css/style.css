@@ -124,6 +124,13 @@ h1 {
   border-radius: 10px;
 }
 
+#history {
+  margin: 5px;
+  /* TODO: add border (?) */
+  overflow: auto;
+  max-height: 400px;
+}
+
 #history ol li {
   background-image: linear-gradient(
     to right,
