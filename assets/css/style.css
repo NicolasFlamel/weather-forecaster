@@ -126,13 +126,15 @@ h1 {
 }
 
 #present-weather ul {
-  display: flex;
   flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 #present-weather li {
   text-align: center;
-  flex-basis: 100%;
+  margin: 5px;
 }
 
 #present-weather ul li:first-child {
