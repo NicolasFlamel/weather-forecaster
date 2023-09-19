@@ -48,6 +48,8 @@ h1 {
   text-align: center;
 }
 
+/* search and history */
+
 .search-results {
   display: flex;
   flex-wrap: wrap;
@@ -61,68 +63,7 @@ h1 {
 }
 
 .search-history {
-  outline: solid rgb(0, 225, 255);
-}
-
-.content-box {
-  border: green solid;
-}
-
-#present-weather {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 5px;
-  justify-content: center;
-  background-image: var(--gradient-primary);
-  background-size: var(--bg-size);
-  border-radius: 10px;
-}
-
-#present-weather h2,
-#present-weather ul {
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-#present-weather ul {
-  display: flex;
-  flex-basis: 100%;
-}
-
-#present-weather li {
-  text-align: center;
-  flex-basis: 100%;
-}
-
-#present-weather ul li:first-child {
-  text-align: end;
-}
-
-#present-weather ul li:last-child {
-  text-align: start;
-}
-
-#five-day-weather {
-  margin-top: 20px;
-}
-
-#five-day-weather h2 {
-  display: inline;
-  padding: 5px;
-  margin: 10px;
-  background-image: var(--gradient-primary);
-  background-size: var(--bg-size);
-  border-radius: 10px;
-}
-
-#five-day-weather ol > li {
-  max-width: 190px;
-  padding: 5px;
-  margin: 10px;
-  background-color: #0093e9;
-  background-image: var(--gradient-primary);
-  background-size: var(--bg-size);
-  border-radius: 10px;
+  border-right: solid rgb(0, 225, 255);
 }
 
 #search {
@@ -164,4 +105,71 @@ h1 {
   /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
+}
+
+/* same day weather */
+
+#present-weather {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+  justify-content: center;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
+}
+
+#present-weather h2,
+#present-weather ul {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#present-weather ul {
+  display: flex;
+  flex-basis: 100%;
+}
+
+#present-weather li {
+  text-align: center;
+  flex-basis: 100%;
+}
+
+#present-weather ul li:first-child {
+  text-align: end;
+}
+
+#present-weather ul li:last-child {
+  text-align: start;
+}
+
+/* five day forecast */
+
+#five-day-weather {
+  margin-top: 20px;
+}
+
+#five-day-weather h2 {
+  width: 100%;
+  padding: 5px;
+  text-align: center;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
+}
+
+#five-day-weather ol > li {
+  max-width: 190px;
+  padding: 5px;
+  margin: 10px;
+  background-color: #0093e9;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
+}
+
+.five-day-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
