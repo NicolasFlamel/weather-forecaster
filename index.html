@@ -24,88 +24,86 @@
     <header class="jumbotron">
       <h1>Weather Dashboard</h1>
     </header>
-    <main class="container-fluid">
-      <div class="row">
-        <aside class="col-sm">
-          <section id="search">
-            <!-- city search -->
-            <h2>Search for a City:</h2>
-            <input
-              type="search"
-              class="form-control"
-              id="city-input"
-              placeholder="City Name"
-            />
-          </section>
-          <section id="history">
-            <!-- history -->
-            <ol></ol>
-          </section>
-        </aside>
-        <section class="weather-info col-9">
-          <article id="present-weather">
-            <h2>CityName/Date</h2>
-            <!-- current weather -->
-            <img src="" alt="weather icon" />
-            <ul>
-              <li>Temp: <span class="value"></span></li>
-              <li>Wind: <span class="value"></span></li>
-              <li>Humidity: <span class="value"></span></li>
-            </ul>
-          </article>
-          <article id="five-day-weather" class="container">
-            <h2>5-Day Forecast:</h2>
-            <!-- 5-day forecast -->
-            <ol class="row">
-              <li class="col-sm">
-                <h3>date</h3>
-                <img src="" alt="weather icon" />
-                <ul>
-                  <li>Temp: <span class="value"></span></li>
-                  <li>Wind: <span class="value"></span></li>
-                  <li>Humidity: <span class="value"></span></li>
-                </ul>
-              </li>
-              <li class="col-sm">
-                <h3>date</h3>
-                <img src="" alt="weather icon" />
-                <ul>
-                  <li>Temp: <span class="value"></span></li>
-                  <li>Wind: <span class="value"></span></li>
-                  <li>Humidity: <span class="value"></span></li>
-                </ul>
-              </li>
-              <li class="col-sm">
-                <h3>date</h3>
-                <img src="" alt="weather icon" />
-                <ul>
-                  <li>Temp: <span class="value"></span></li>
-                  <li>Wind: <span class="value"></span></li>
-                  <li>Humidity: <span class="value"></span></li>
-                </ul>
-              </li>
-              <li class="col-sm">
-                <h3>date</h3>
-                <img src="" alt="weather icon" />
-                <ul>
-                  <li>Temp: <span class="value"></span></li>
-                  <li>Wind: <span class="value"></span></li>
-                  <li>Humidity: <span class="value"></span></li>
-                </ul>
-              </li>
-              <li class="col-sm">
-                <h3>date</h3>
-                <img src="" alt="weather icon" />
-                <ul>
-                  <li>Temp: <span class="value"></span></li>
-                  <li>Wind: <span class="value"></span></li>
-                  <li>Humidity: <span class="value"></span></li>
-                </ul>
-              </li>
-            </ol>
-          </article>
+    <main class="search-results">
+      <aside class="search-history col-sm">
+        <section id="search">
+          <!-- city search -->
+          <h2>Search for a City:</h2>
+          <input
+            type="search"
+            class="form-control"
+            id="city-input"
+            placeholder="City Name"
+          />
         </section>
-      </div>
+        <section id="history">
+          <!-- history -->
+          <ol></ol>
+        </section>
+      </aside>
+      <section class="weather-info col-9">
+        <article id="present-weather">
+          <h2>CityName/Date</h2>
+          <!-- current weather -->
+          <img src="" alt="weather icon" />
+          <ul>
+            <li>Temp: <span class="value"></span></li>
+            <li>Wind: <span class="value"></span></li>
+            <li>Humidity: <span class="value"></span></li>
+          </ul>
+        </article>
+        <article id="five-day-weather" class="container">
+          <h2>5-Day Forecast:</h2>
+          <!-- 5-day forecast -->
+          <ol class="row">
+            <li class="col-sm">
+              <h3>date</h3>
+              <img src="" alt="weather icon" />
+              <ul>
+                <li>Temp: <span class="value"></span></li>
+                <li>Wind: <span class="value"></span></li>
+                <li>Humidity: <span class="value"></span></li>
+              </ul>
+            </li>
+            <li class="col-sm">
+              <h3>date</h3>
+              <img src="" alt="weather icon" />
+              <ul>
+                <li>Temp: <span class="value"></span></li>
+                <li>Wind: <span class="value"></span></li>
+                <li>Humidity: <span class="value"></span></li>
+              </ul>
+            </li>
+            <li class="col-sm">
+              <h3>date</h3>
+              <img src="" alt="weather icon" />
+              <ul>
+                <li>Temp: <span class="value"></span></li>
+                <li>Wind: <span class="value"></span></li>
+                <li>Humidity: <span class="value"></span></li>
+              </ul>
+            </li>
+            <li class="col-sm">
+              <h3>date</h3>
+              <img src="" alt="weather icon" />
+              <ul>
+                <li>Temp: <span class="value"></span></li>
+                <li>Wind: <span class="value"></span></li>
+                <li>Humidity: <span class="value"></span></li>
+              </ul>
+            </li>
+            <li class="col-sm">
+              <h3>date</h3>
+              <img src="" alt="weather icon" />
+              <ul>
+                <li>Temp: <span class="value"></span></li>
+                <li>Wind: <span class="value"></span></li>
+                <li>Humidity: <span class="value"></span></li>
+              </ul>
+            </li>
+          </ol>
+        </article>
+      </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>

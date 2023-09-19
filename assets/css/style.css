@@ -30,15 +30,11 @@ ol {
 }
 
 body {
-  margin: 5px;
-  padding: 10px;
   background: linear-gradient(135deg, #014e5c, #01849b);
   background-attachment: fixed;
 }
 
 .jumbotron {
-  height: 150px;
-
   background-color: #0093e9;
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
@@ -52,8 +48,20 @@ h1 {
   text-align: center;
 }
 
-.row {
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  border: solid rgb(0, 225, 255);
+  background-color: #01849b;
+}
+
+.search-results > * {
+  padding: 5px;
+}
+
+.search-history {
+  outline: solid rgb(0, 225, 255);
 }
 
 .content-box {
