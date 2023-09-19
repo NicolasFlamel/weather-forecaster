@@ -30,6 +30,8 @@ ol {
 }
 
 body {
+  margin: auto;
+  max-width: 1920px;
   background: linear-gradient(135deg, #014e5c, #01849b);
   background-attachment: fixed;
 }
