@@ -1,5 +1,6 @@
 :root {
-  --primary: #000000;
+  --primary: #0093e9;
+  --secondary: #01849b;
   --gradient-primary: linear-gradient(
     to right,
     #1fa2ff 0%,
@@ -37,7 +38,7 @@ body {
 }
 
 .jumbotron {
-  background-color: #0093e9;
+  background-color: var(--primary);
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
 }
@@ -57,7 +58,7 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   border: solid rgb(0, 225, 255);
-  background-color: #01849b;
+  background-color: var(--secondary);
 }
 
 .search-results > * {
@@ -83,12 +84,6 @@ h1 {
 }
 
 #history ol li {
-  background-image: linear-gradient(
-    to right,
-    #1fa2ff 0%,
-    #12d8fa 51%,
-    #1fa2ff 100%
-  );
   margin: 10px;
   padding: 15px 45px;
   text-align: center;
@@ -100,6 +95,7 @@ h1 {
   display: block;
   cursor: pointer;
   user-select: none;
+  background-image: var(--gradient-primary);
 }
 
 #history ol li:hover {
@@ -166,7 +162,7 @@ h1 {
   max-width: 190px;
   padding: 5px;
   margin: 10px;
-  background-color: #0093e9;
+  background-color: var(--primary);
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
@@ -186,7 +182,7 @@ h1 {
   }
 
   .search-history > * {
-    margin: auto!important;
+    margin: auto;
     max-width: 500px;
   }
 }
