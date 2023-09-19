@@ -1,5 +1,6 @@
 :root {
-  --primary: #000000;
+  --primary: #0093e9;
+  --secondary: #01849b;
   --gradient-primary: linear-gradient(
     to right,
     #1fa2ff 0%,
@@ -30,16 +31,14 @@ ol {
 }
 
 body {
-  margin: 5px;
-  padding: 10px;
+  margin: auto;
+  max-width: 1920px;
   background: linear-gradient(135deg, #014e5c, #01849b);
   background-attachment: fixed;
 }
 
 .jumbotron {
-  height: 150px;
-
-  background-color: #0093e9;
+  background-color: var(--primary);
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
 }
@@ -52,13 +51,61 @@ h1 {
   text-align: center;
 }
 
-.row {
+/* search and history */
+
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  border: solid rgb(0, 225, 255);
+  background-color: var(--secondary);
 }
 
-.content-box {
-  border: green solid;
+.search-results > * {
+  padding: 5px;
 }
+
+.search-history {
+  border-right: solid rgb(0, 225, 255);
+}
+
+#search {
+  padding: 10px;
+  background-image: var(--gradient-primary);
+  background-size: var(--bg-size);
+  border-radius: 10px;
+}
+
+#history {
+  margin: 5px auto;
+  /* TODO: add border (?) */
+  overflow: auto;
+  max-height: 400px;
+}
+
+#history ol li {
+  margin: 10px;
+  padding: 15px 45px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border-radius: 10px;
+  display: block;
+  cursor: pointer;
+  user-select: none;
+  background-image: var(--gradient-primary);
+}
+
+#history ol li:hover {
+  background-position: right center;
+  /* change the direction of the change here */
+  color: #fff;
+  text-decoration: none;
+}
+
+/* same day weather */
 
 #present-weather {
   display: flex;
@@ -77,13 +124,15 @@ h1 {
 }
 
 #present-weather ul {
-  display: flex;
   flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 #present-weather li {
   text-align: center;
-  flex-basis: 100%;
+  margin: 5px;
 }
 
 #present-weather ul li:first-child {
@@ -94,14 +143,16 @@ h1 {
   text-align: start;
 }
 
+/* five day forecast */
+
 #five-day-weather {
   margin-top: 20px;
 }
 
 #five-day-weather h2 {
-  display: inline;
+  width: 100%;
   padding: 5px;
-  margin: 10px;
+  text-align: center;
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
@@ -111,49 +162,27 @@ h1 {
   max-width: 190px;
   padding: 5px;
   margin: 10px;
-  background-color: #0093e9;
+  background-color: var(--primary);
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
 }
 
-#search {
-  padding: 10px;
-  background-image: var(--gradient-primary);
-  background-size: var(--bg-size);
-  border-radius: 10px;
+.five-day-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-#history {
-  margin: 5px;
-  /* TODO: add border (?) */
-  overflow: auto;
-  max-height: 400px;
-}
+@media screen and (max-width: 958px) {
+  .search-history {
+    padding: 10px;
+    border-right: none;
+    border-bottom: solid rgb(0, 225, 255);
+  }
 
-#history ol li {
-  background-image: linear-gradient(
-    to right,
-    #1fa2ff 0%,
-    #12d8fa 51%,
-    #1fa2ff 100%
-  );
-  margin: 10px;
-  padding: 15px 45px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 10px;
-  display: block;
-  cursor: pointer;
-  user-select: none;
-}
-
-#history ol li:hover {
-  background-position: right center;
-  /* change the direction of the change here */
-  color: #fff;
-  text-decoration: none;
+  .search-history > * {
+    margin: auto;
+    max-width: 500px;
+  }
 }

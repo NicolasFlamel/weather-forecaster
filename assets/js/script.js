@@ -1,5 +1,7 @@
 let cityHistory = JSON.parse(localStorage.getItem('history')) || [];
 
+// TODO: validate date of weather history
+
 // object looks like this:
 // cityHistory = [
 //     {
