@@ -74,7 +74,7 @@ h1 {
 }
 
 #history {
-  margin: 5px;
+  margin: 5px auto;
   /* TODO: add border (?) */
   overflow: auto;
   max-height: 400px;
@@ -172,4 +172,17 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+@media screen and (max-width: 958px) {
+  .search-history {
+    padding: 10px;
+    border-right: none;
+    border-bottom: solid rgb(0, 225, 255);
+  }
+
+  .search-history > * {
+    margin: auto!important;
+    max-width: 500px;
+  }
 }
