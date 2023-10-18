@@ -30,6 +30,13 @@ ol {
   margin: 0;
 }
 
+button {
+  background-size: 200% auto;
+  border-radius: 10px;
+  user-select: none;
+  background-image: var(--gradient-primary);
+}
+
 body {
   margin: auto;
   max-width: 1920px;
@@ -74,6 +81,10 @@ h1 {
   background-image: var(--gradient-primary);
   background-size: var(--bg-size);
   border-radius: 10px;
+}
+
+.search-input {
+  display: flex;
 }
 
 #history {
