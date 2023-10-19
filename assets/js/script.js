@@ -17,8 +17,14 @@ let cityHistory = JSON.parse(localStorage.getItem('history')) || [];
 //     }
 // ]
 
-function onLoad() {
-  citySearch({ target: { value: 'sacramento' } });
+async function onLoad() {
+  try {
+    const response = await fetch('https://api.db-ip.com/v2/free/self');
+    const data = await response.json();
+    citySearch({ target: { value: data.city } });
+  } catch (err) {
+    citySearch({ target: { value: 'sacramento' } });
+  }
 }
 
 async function citySearch(event) {
@@ -27,9 +33,19 @@ async function citySearch(event) {
   if (searchTerm.length < 1) return;
 
   const coord = await getCoord(searchTerm);
-  const weatherData = await getWeatherAt(coord);
-  updateSameDayWeather(weatherData.current);
-  updatedForecast(weatherData.forecast);
+  getWeatherAt(coord);
+}
+
+async function geoLocate(event) {
+  navigator.geolocation.getCurrentPosition(geoSuccess, geoFailure);
+}
+
+function geoSuccess({ coords: { latitude, longitude } }) {
+  getWeatherAt({ lat: latitude, lon: longitude });
+}
+
+function geoFailure(error) {
+  console.log(error);
 }
 
 function historySelect(event) {
@@ -51,6 +67,7 @@ async function getCoord(city) {
   );
 
   const response = await fetch(url);
+
   if (!response.ok) {
     createAlert();
     return Promise.reject(response);
@@ -75,7 +92,8 @@ async function getWeatherAt({ lat, lon }) {
     ),
   ]);
 
-  return { current: data[0], forecast: data[1] };
+  updateSameDayWeather(data[0]);
+  updatedForecast(data[1]);
 }
 
 async function getWeatherAPI(url) {
@@ -220,5 +238,6 @@ function createAlert() {
 
 document.querySelector('#city-input').addEventListener('search', citySearch);
 document.querySelector('#history ol').addEventListener('click', historySelect);
+document.querySelector('.geo-button').addEventListener('click', geoLocate);
 
 onLoad();
