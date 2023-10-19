@@ -17,8 +17,14 @@ let cityHistory = JSON.parse(localStorage.getItem('history')) || [];
 //     }
 // ]
 
-function onLoad() {
-  citySearch({ target: { value: 'sacramento' } });
+async function onLoad() {
+  try {
+    const response = await fetch('https://api.db-ip.com/v2/free/self');
+    const data = await response.json();
+    citySearch({ target: { value: data.city } });
+  } catch (err) {
+    citySearch({ target: { value: 'sacramento' } });
+  }
 }
 
 async function citySearch(event) {
@@ -30,7 +36,7 @@ async function citySearch(event) {
   getWeatherAt(coord);
 }
 
-function geoLocate(event) {
+async function geoLocate(event) {
   navigator.geolocation.getCurrentPosition(geoSuccess, geoFailure);
 }
 
